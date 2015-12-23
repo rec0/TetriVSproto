@@ -12,7 +12,6 @@ public class Tetris {
 	
 	/* 処理用のフィールド値を宣言 */
 	private int[][] Putted = makeDefaultPutted();
-	private int[][] closedStates = makeDefaultPutted();
 	private Queue<Integer> nextMinos = new LinkedList<Integer>();
 	private int[][] moving = Minoes[selectNextMino()];
 	/* ホールドしているミノの保持 */
@@ -22,17 +21,12 @@ public class Tetris {
 	/* ネクストミノ生成用キュー */
 	private Queue<Integer> damage = new LinkedList<Integer>();
 	
-	/* 落下予測地点を表すフィールド値
-	 * status: 	int値:	落下予測距離
-	 * 			-1	:  	落下禁止		*/
-	private int[] guessedDropYs = {0,0,0,0,0,0,0,0,0,0};
-	
 	/* ドロップの遊びを計るのとミノが落ちる速度とミノが落ちたかどうかを判定するフィールド値 */
 	private int dropSpace = 0, downSpace = 0, dropMinoVelocity = 60;
 	boolean droped = false;
 	/* 処理入力用の判定値のフィールド値 */
 	private boolean drop = false, down = false, left = false, right = false, spinLeft = false, spinRight = false, updateScrean = false;
-	private boolean ScreanWait = false, damager = false;
+	private boolean damager = false;
 	private boolean moveFlag = false, gameOverFlag = true;
 	
 	/* 下左右へのあたり判定 */
@@ -138,18 +132,15 @@ public class Tetris {
 		return moveFlag;
 	}
 	
+	/* ドロップ予測地点の判定を行う関数 */
+	public void guessDrop(){
+		dropY = guessDropPosition(x);
+	}
+	
 	/* ドロップの判定をする関数 */
 	public void dropMoveJadge(){
 		y = guessDropPosition(this.x);
 		this.dropedMino();
-	}
-	
-	/* ドロップの落下地点をすべてのxの場合について予測するための関数 */
-	public void guessDropPositions(){
-		for(int i=0; i<this.guessedDropYs.length; i++){
-			this.guessedDropYs[i] = guessDropPosition(i);
-			if(this.guessedDropYs[i] == this.y) this.guessedDropYs[i] = -1;
-		}
 	}
 	
 	/* ドロップの落下地点の予測をするための関数 */
@@ -235,22 +226,6 @@ public class Tetris {
 		}
 		int next = nextMinos.poll();
 		return next;
-	}
-	
-	/* 動いているミノを置いた状態の盤面を予測する関数 */
-	private int[][] guessPuttedMino(int putted[][], int moving[][], int movingX, int movingY){
-		int[][] res = makeDefaultPutted();
-		for(int i = 0; i < putted.length; i++)for(int j = 0; j < putted[0].length; j++){
-			res[i][j] = putted[i][j];
-		}
-		for(int i = 0; i < moving.length; i++)for(int j = 0; j < moving[0].length; j++)
-			if(moving[i][j]!=0 && j+movingX >= 0 && j+movingX < 12 && i+movingY >=0){
-			res[i+movingY][j+movingX] = moving[i][j];
-		}
-		return res;
-	}
-	private int[][] guessPuttedMino(){
-		return guessPuttedMino(this.Putted, this.moving, this.x, this.y);
 	}
 	
 	/* ダメージを受けた際の動作 */

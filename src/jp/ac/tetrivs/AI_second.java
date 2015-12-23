@@ -3,7 +3,7 @@ package jp.ac.tetrivs;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class AI_first implements Runnable{
+public class AI_second implements Runnable{
 	/* テトリスデータの取得 */
 	private Tetris t;
 	/* 待機用変数 */
@@ -16,7 +16,7 @@ public class AI_first implements Runnable{
 	 * 4:ドロップを行う	 */
 	private Queue<Integer> commands = new LinkedList<Integer>();
 	
-	AI_first(Tetris t){
+	AI_second(Tetris t){
 		this.t = t;
 	}
 	
@@ -24,11 +24,11 @@ public class AI_first implements Runnable{
 	public void run() {
 		while(t.getGameOver()){
 /* ここ以降にAIによるコマンド生成を書いていきます */
-		/* ここでは右に3回転,左に3回転,右に3,左に6動かしてからドロップしている */
+		/* ここでは右に3回転,右に3回転,左に3,左に6動かしてからドロップしている */
 		for(int i = 0; i < 3; i++) commands.add(0);
 		for(int i = 0; i < 3; i++) commands.add(1);
-		for(int i = 0; i < 3; i++) commands.add(2);
-		for(int i = 0; i < 6; i++) commands.add(3);
+		for(int i = 0; i < 3; i++) commands.add(3);
+		for(int i = 0; i < 6; i++) commands.add(2);
 		commands.add(4);
 /* コマンド生成ここまで */
 			

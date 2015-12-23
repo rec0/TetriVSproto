@@ -132,7 +132,7 @@ public class GUIScrean extends JFrame implements ActionListener , KeyListener , 
 		//eventの発生源を取得
 		Object source = event.getSource();
 		
-		/* 接続処理を行う */
+		/* 開始処理を行う */
 		if(source == this.connect){
 			t = new Tetris();
 			TetrisThread tetris = new TetrisThread(t,me);
@@ -179,6 +179,16 @@ public class GUIScrean extends JFrame implements ActionListener , KeyListener , 
 				removeMouseListener(this);
 				removeMouseMotionListener(this);
 				removeMouseWheelListener(this);
+				/* AIの実体を作成する */
+				AI_second ai = new AI_second(t);
+				Thread th = new Thread(ai);
+				try {
+					Thread.sleep(1001);
+					tetris.gameStart();
+					th.start();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		/* キー入力の為にフォーカスをウィンドウに戻しておく */
@@ -218,7 +228,8 @@ public class GUIScrean extends JFrame implements ActionListener , KeyListener , 
 			else this.minos[index][i][j].setBackground(Color.WHITE);
 		}
 		/* 現在のドロップ予測位置の描写 */
-		
+		/* 現在のドロップ予測位置の描写 */
+		for(int i = 0; i < 4; i++)for(int j = 0; j < 4; j++)if(t.getMove(i,j) != 0) this.minos[index][i+t.getDropY()][j+t.getX()].setBackground(Color.BLUE);
 		/* 動いているミノの描画 */
 		for(int i = 0; i < 4; i++)for(int j = 0; j < 4; j++)if(t.getMove(i,j) != 0) this.minos[index][i+t.getY()][j+t.getX()].setBackground(Color.GRAY);
 		/* 裏画面と表画面の反転 */

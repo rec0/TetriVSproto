@@ -30,6 +30,7 @@ public class TetrisThread implements Runnable {
 			if(t.getSpinLeft())		t.spinLeftMoveJadge();	t.setSpinLeft(false);	t.setUpdateScrean(true);
 			if(t.getSpinRight())	t.spinRightMoveJadge();	t.setSpinRight(false);	t.setUpdateScrean(true);
 			if(t.getDrop()) 		t.dropMoveJadge();		t.setDrop(false);		t.setUpdateScrean(true);
+			t.guessDrop();
 			t.downMino();
 			
 			/* 画面へ描写の指示 */
