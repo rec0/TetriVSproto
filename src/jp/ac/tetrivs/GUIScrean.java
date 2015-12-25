@@ -92,7 +92,7 @@ public class GUIScrean extends JFrame implements ActionListener , KeyListener , 
 				}
 			}
 			for(int i = 0; i < 4; i++)for(int j = 0; j < 4; j++){
-				if(t.getMove(i,j) != 0) this.minos[k][i+t.getY()][j+t.getX()].setBackground(Color.GRAY);
+				if(t.getMoving(j,i) != 0) this.minos[k][i+t.getY()][j+t.getX()].setBackground(Color.GRAY);
 			}
 			for(int i = 0; i < 22; i++)for(int j = 0; j < 12; j++){
 				game[k].add(minos[k][i][j]);
@@ -109,7 +109,7 @@ public class GUIScrean extends JFrame implements ActionListener , KeyListener , 
 	
 	/* 改行用 */
 	public JSeparator getHr(int width, int hight) {
-		JSeparator sp = new JSeparator(JSeparator.HORIZONTAL);
+		JSeparator sp = new JSeparator(SwingConstants.HORIZONTAL);
 		sp.setPreferredSize(new Dimension(width, hight));
 		return sp;
 	}
@@ -229,9 +229,9 @@ public class GUIScrean extends JFrame implements ActionListener , KeyListener , 
 		}
 		/* 現在のドロップ予測位置の描写 */
 		/* 現在のドロップ予測位置の描写 */
-		for(int i = 0; i < 4; i++)for(int j = 0; j < 4; j++)if(t.getMove(i,j) != 0) this.minos[index][i+t.getDropY()][j+t.getX()].setBackground(Color.BLUE);
+		for(int i = 0; i < 4; i++)for(int j = 0; j < 4; j++)if(t.getMoving(j,i) != 0) this.minos[index][i+t.getDropY()][j+t.getX()].setBackground(Color.BLUE);
 		/* 動いているミノの描画 */
-		for(int i = 0; i < 4; i++)for(int j = 0; j < 4; j++)if(t.getMove(i,j) != 0) this.minos[index][i+t.getY()][j+t.getX()].setBackground(Color.GRAY);
+		for(int i = 0; i < 4; i++)for(int j = 0; j < 4; j++)if(t.getMoving(j,i) != 0) this.minos[index][i+t.getY()][j+t.getX()].setBackground(Color.GRAY);
 		/* 裏画面と表画面の反転 */
 		cardLayout.next(gameScrean);
 	}

@@ -260,9 +260,17 @@ public class Tetris {
 		return this.dropY;
 	}
 	
+	/* 置いてあるミノのデータを渡す 
+	 * x : 置いてあるミノのx軸方向
+	 * y : 置いてあるミノのy軸方向　*/
+	public int getPutted(int x, int y){
+		if(x >= 0 && x < 12 && y >= 0 && y < 22) return this.Putted[y][x];
+		else return -1;
+	}
+	
 	/* 動いているミノのデータを渡す */
-	public int getMove(int i, int j){
-		return this.moving[i][j];
+	public int getMoving(int x, int y){
+		return this.moving[y][x];
 	}
 		
 	/* ミノの形の保持 */
@@ -375,7 +383,7 @@ public class Tetris {
 	
 	/* 処理に使う関数関係 */
 	/* デフォルトのputtedミノを与える関数 */
-	private int[][] makeDefaultPutted(){
+	public static int[][] makeDefaultPutted(){
 		int[][] d = {
 				{8,0,0,0,0,0,0,0,0,0,0,8},
 				{8,0,0,0,0,0,0,0,0,0,0,8},
@@ -403,7 +411,7 @@ public class Tetris {
 		return d;
 	}
 	/* デフォルトのmovingミノを与える関数 */
-	private int[][] makeDefaultMoving(){
+	public static int[][] makeDefaultMoving(){
 		int[][] m = {
 				{0,0,0,0},
 				{0,0,0,0},

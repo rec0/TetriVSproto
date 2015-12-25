@@ -1,8 +1,5 @@
 package jp.ac.tetrivs;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 public class AI_first extends AIRunnable {
 	
 	AI_first(Tetris t) {

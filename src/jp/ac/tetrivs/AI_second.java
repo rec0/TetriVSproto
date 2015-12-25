@@ -1,13 +1,14 @@
 package jp.ac.tetrivs;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 public class AI_second extends AIRunnable{
 	
 	AI_second(Tetris t) {
 		super(t);
 	}
+	
+	/* テトリスデータを取得するためのフィールド値 */
+	int[][] putted = Tetris.makeDefaultPutted();
+	int[][] moving = Tetris.makeDefaultMoving();
 	
 	/* ここにAIの処理を書いていく
 	 * 処理はcommandsにaddする形式で増やしていく 
@@ -19,11 +20,18 @@ public class AI_second extends AIRunnable{
 	 * 4:ドロップを行う*/
 	@Override
 	void commandsMaker() {
-		/* ここでは右に3回転,左に3回転,右に3,左に6動かしてからドロップしている */
-		for(int i = 0; i < 3; i++) commands.add(0);
-		for(int i = 0; i < 3; i++) commands.add(1);
-		for(int i = 0; i < 3; i++) commands.add(3);
-		for(int i = 0; i < 6; i++) commands.add(2);
-		commands.add(4);
+		/* Putted,Movingミノの取得を行う */
+		getPutted();
+		getMoving();
 	} 
+	
+	/* Puttedミノを取得する関数 */
+	private void getPutted(){
+		for(int i = 0; i < this.putted[0].length; i++) for(int j = 0; j < this.putted.length; j++) this.putted[j][i] = t.getPutted(i, j);
+	}
+	
+	/* movingミノを取得する関数 */
+	private void getMoving(){
+		for(int i = 0; i < this.moving[0].length; i++)for(int j = 0; j < this.moving.length; j++) this.moving[j][i] = t.getMoving(i, j);
+	}
 }
