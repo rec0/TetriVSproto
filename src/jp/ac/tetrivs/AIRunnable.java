@@ -8,6 +8,10 @@ public abstract class AIRunnable implements Runnable {
 	protected Tetris t;
 	/* 待機用変数 */
 	protected long time;
+	/* コマンド作成時間処理用変数 */
+	protected double countTime;
+	/* fps計算用変数 */
+	protected double fpsTimer = 0;
 	/* コマンド用キュー
 	 * 0:右に一度回転
 	 * 1:左に一度回転
@@ -25,9 +29,12 @@ public abstract class AIRunnable implements Runnable {
 	@Override
 	public void run() {
 		while(t.getGameOver()){
+			
+			countTime = System.currentTimeMillis();
 			/* ここ以降にAIによるコマンド生成を書いていきます */
 			commandsMaker();
 			/* コマンド生成ここまで */
+			t.setAiTime(System.currentTimeMillis() - countTime);
 			
 			/* 生成したコマンドを実行する */
 			while(!commands.isEmpty()){
@@ -52,6 +59,15 @@ public abstract class AIRunnable implements Runnable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
+		/* fpsの計算と格納 */
+		t.setAiTimerCounter( t.getAiTimerCounter() + i );
+		if(t.getAiTimerCounter() > 30){
+			t.setAiTimer( ( ( System.currentTimeMillis() - fpsTimer ) / 500 ) * 60);
+			t.setAiTimerCounter(0);
+			fpsTimer = System.currentTimeMillis();
+		}
+		
 		time = System.currentTimeMillis();
 	}
 }

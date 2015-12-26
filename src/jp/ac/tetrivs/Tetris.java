@@ -20,7 +20,6 @@ public class Tetris {
 	private int x = 4, y = 0, attack = 0, dropY = 0;
 	/* ネクストミノ生成用キュー */
 	private Queue<Integer> damage = new LinkedList<Integer>();
-	
 	/* ドロップの遊びを計るのとミノが落ちる速度とミノが落ちたかどうかを判定するフィールド値 */
 	private int dropSpace = 0, downSpace = 0, dropMinoVelocity = 60;
 	boolean droped = false;
@@ -28,6 +27,9 @@ public class Tetris {
 	private boolean drop = false, down = false, left = false, right = false, spinLeft = false, spinRight = false, updateScrean = false;
 	private boolean damager = false;
 	private boolean moveFlag = false, gameOverFlag = true;
+	/* 各スレッドの処理のfpsを算出するためのフィールド値 */
+	private double threadTimer = 0, aiTimer = 0, aiTime = 0;
+	private int threadTimerCounter = 0, aiTimerCounter = 0;
 	
 	/* 下左右へのあたり判定 */
 	public void moveLeftJadge(){
@@ -346,6 +348,21 @@ public class Tetris {
 	public void setX(int x){
 		if(x>=0 && x<=11 && moveHorizonJadge(x)) this.x = x;
 	}
+	public void setThreadTimer(double t){
+		this.threadTimer = t;
+	}
+	public void setAiTimer(double t){
+		this.aiTimer = t;
+	}
+	public void setAiTime(double t){
+		this.aiTime = t;
+	}
+	public void setThreadTimerCounter(int c){
+		this.threadTimerCounter = c;
+	}
+	public void setAiTimerCounter(int c){
+		this.aiTimerCounter = c;
+	}
 	/* 処理変数を返す */
 	public boolean getDrop(){
 		return drop;
@@ -380,7 +397,21 @@ public class Tetris {
 	public boolean getDamager(){
 		return damager;
 	}
-	
+	public double getThreadTimer(){
+		return this.threadTimer;
+	}
+	public double getAiTimer(){
+		return this.aiTimer;
+	}
+	public double getAiTime(){
+		return this.aiTime;
+	}
+	public int getThreadTimerCounter(){
+		return this.threadTimerCounter;
+	}
+	public int getAiTimerCounter(){
+		return this.aiTimerCounter;
+	}
 	/* 処理に使う関数関係 */
 	/* デフォルトのputtedミノを与える関数 */
 	public static int[][] makeDefaultPutted(){

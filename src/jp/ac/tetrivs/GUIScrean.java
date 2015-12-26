@@ -17,16 +17,21 @@ public class GUIScrean extends JFrame implements ActionListener , KeyListener , 
 	private JPanel connectScrean;
 	private JPanel gameScrean;
 	private JPanel[] game = new JPanel[2];
-	private JPanel p1;
+	private JPanel p1,p2;
 	
 	//CardLayoutのフィールド値
 	private CardLayout cardLayout;
 	
-	//JButtonのインスタンスの作成
+	/* JButtonのインスタンスの作成 */
 	private JButton connect;
 	
-	/* ゲーム画面表示用の配列の宣言 */
+	/* ゲーム画面表示用の配列の作成 */
 	private JLabel[][][] minos = new JLabel[2][22][12];
+	
+	/* ステータス表示用のラベルの作成 */
+	private JLabel threadTimerPrinter = new JLabel("  Tetris Thread: " + t.getThreadTimer() + " fps");
+	private JLabel aiTimerPrinter = new JLabel("  Ai Thread: " + t.getAiTimer() + " fps");
+	private JLabel aiTimePrinter = new JLabel("  Ai Time: " + t.getAiTime() + " ms");
 	
 	/* 接続用のテキストボックス */
 	private JComboBox<String> player;
@@ -40,7 +45,7 @@ public class GUIScrean extends JFrame implements ActionListener , KeyListener , 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//ウインドウの初期位置とサイズの設定
-		this.setBounds(100, 100, 300, 400);
+		this.setBounds(100, 100, 600, 400);
 		
 		//パネルを作成
 		this.c = new JPanel();
@@ -49,11 +54,13 @@ public class GUIScrean extends JFrame implements ActionListener , KeyListener , 
 		gameScrean = new JPanel();
 		for(int i=0; i < 2; i++) game[i] = new JPanel();
 		p1 = new JPanel();
+		p2 = new JPanel();
 		//コンテナに貼り付ける方向の指定
-		this.c.setLayout(new GridLayout(1,1));
+		this.c.setLayout(new GridLayout(1,2));
 		Container container = this.getContentPane();	
 		container.add(c);
 		c.add(p1);
+		c.add(p2);
 		/* カードレイアウトを設定する */
 		cardLayout = new CardLayout();
 		this.p1.setLayout(cardLayout);
@@ -61,20 +68,24 @@ public class GUIScrean extends JFrame implements ActionListener , KeyListener , 
 		p1.add(connectScrean,"connect");
 		p1.add(gameScrean,"gameScrean");
 		for(int i = 0; i < 2; i++)gameScrean.add(game[i],"game" + i);
-		/* コネクト画面 */
+		/* スタート画面 */
 		//サーバーの仕様にあわせて先に接続するか後に接続するかを選択
 		String[] players = {"ScoreAttack", "AI_1", "AI_2"};
 		player = new JComboBox<String>(players);
-		//コネクトボタン
+		/* スタートボタン */
 		connect = new JButton("start");
 		this.connect.addActionListener(this);
-		//各要素をはりつけ
+		/* 各要素をはりつけ */
 		this.connectScrean.add(player);
 		this.connectScrean.add(connect);
+		p2.setLayout(new GridLayout(3,1));
+		p2.add(threadTimerPrinter);
+		p2.add(aiTimerPrinter);
+		p2.add(aiTimePrinter);
 		/* ゲーム画面 */
 		for(int i=0; i < 2; i++) this.game[i].setLayout(new GridLayout(22,12));
 		
-		//パネルにラベルを追加
+		/* パネルにラベルを追加 */
 		EtchedBorder border = new EtchedBorder(EtchedBorder.RAISED, Color.lightGray, Color.BLACK);
 		for(int k = 0; k < 2; k++){
 			for(int i = 0; i < 22; i++)for(int j = 0; j < 12; j++){
@@ -216,6 +227,9 @@ public class GUIScrean extends JFrame implements ActionListener , KeyListener , 
 			}
 			cardLayout.first(p1);
 		}
+		threadTimerPrinter.setText("  Tetris Thread: " + String.format("%.3f", t.getThreadTimer()) + " fps");
+		aiTimerPrinter.setText("  Ai Thread: " + String.format("%.3f",t.getAiTimer()) + " fps");
+		aiTimePrinter.setText("  Ai Time: " + String.format("%.3f",t.getAiTime()) + " ms");
 	}
 	
 	/* 画面の描画をする関数（上記画面更新関数で使用） 

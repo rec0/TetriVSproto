@@ -5,6 +5,10 @@ public class TetrisThread implements Runnable {
 	/* テトリスデータ格納とループ用フィールド値 */
 	Tetris t;
 	GameInterface screan;
+	
+	/* fpsの計算用変数 */
+	double fpsTimer = System.currentTimeMillis();
+	
 	/* コンストラクタの宣言 */
 	TetrisThread(Tetris t, GameInterface screan){
 		this.t = t;
@@ -32,6 +36,14 @@ public class TetrisThread implements Runnable {
 			if(t.getDrop()) 		t.dropMoveJadge();		t.setDrop(false);		t.setUpdateScrean(true);
 			t.guessDrop();
 			t.downMino();
+			
+			/* fpsの計算と格納 */
+			t.setThreadTimerCounter( t.getThreadTimerCounter() + 1 );
+			if(t.getThreadTimerCounter() > 30){
+				t.setThreadTimer( ( ( System.currentTimeMillis() - fpsTimer ) / 500 ) * 60);
+				t.setThreadTimerCounter(0);
+				fpsTimer = System.currentTimeMillis();
+			}
 			
 			/* 画面へ描写の指示 */
 			if(t.getUpdateScrean())	screan.updateScrean();	t.setUpdateScrean(false);
