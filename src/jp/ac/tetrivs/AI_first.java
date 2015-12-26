@@ -13,10 +13,12 @@ public class AI_first extends AIRunnable {
 	 * 1:左に一度回転
 	 * 2:右に一つ移動
 	 * 3:左に一つ移動
-	 * 4:ドロップを行う*/
+	 * 4:ドロップを行う
+	 * 5:ホールドを行う	*/
 	@Override
 	void commandsMaker() {
-		/* ここでは右に3回転,左に3回転,右に3,左に6動かしてからドロップしている */
+		/* ここではホールドを行い,右に3回転,左に3回転,右に3,左に6動かしてからドロップしている */
+		commands.add(5);
 		for(int i = 0; i < 3; i++) commands.add(0);
 		for(int i = 0; i < 3; i++) commands.add(1);
 		for(int i = 0; i < 3; i++) commands.add(2);

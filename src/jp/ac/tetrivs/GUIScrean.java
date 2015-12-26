@@ -17,7 +17,7 @@ public class GUIScrean extends JFrame implements ActionListener , KeyListener , 
 	private JPanel connectScrean;
 	private JPanel gameScrean;
 	private JPanel[] game = new JPanel[2];
-	private JPanel p1,p2;
+	private JPanel p1,p2,nextP,holdP;
 	
 	//CardLayoutのフィールド値
 	private CardLayout cardLayout;
@@ -27,6 +27,8 @@ public class GUIScrean extends JFrame implements ActionListener , KeyListener , 
 	
 	/* ゲーム画面表示用の配列の作成 */
 	private JLabel[][][] minos = new JLabel[2][22][12];
+	private JLabel[][] next = new JLabel[4][4];
+	private JLabel[][] hold = new JLabel[4][4];
 	
 	/* ステータス表示用のラベルの作成 */
 	private JLabel threadTimerPrinter = new JLabel("  Tetris Thread: " + t.getThreadTimer() + " fps");
@@ -55,8 +57,12 @@ public class GUIScrean extends JFrame implements ActionListener , KeyListener , 
 		for(int i=0; i < 2; i++) game[i] = new JPanel();
 		p1 = new JPanel();
 		p2 = new JPanel();
+		nextP = new JPanel();
+		holdP = new JPanel();
 		//コンテナに貼り付ける方向の指定
 		this.c.setLayout(new GridLayout(1,2));
+		this.nextP.setLayout(new GridLayout(4,4));
+		this.holdP.setLayout(new GridLayout(4,4));
 		Container container = this.getContentPane();	
 		container.add(c);
 		c.add(p1);
@@ -78,8 +84,10 @@ public class GUIScrean extends JFrame implements ActionListener , KeyListener , 
 		/* 各要素をはりつけ */
 		this.connectScrean.add(player);
 		this.connectScrean.add(connect);
-		p2.setLayout(new GridLayout(3,1));
+		p2.setLayout(new GridLayout(3,2));
+		p2.add(nextP);
 		p2.add(threadTimerPrinter);
+		p2.add(holdP);
 		p2.add(aiTimerPrinter);
 		p2.add(aiTimePrinter);
 		/* ゲーム画面 */
@@ -108,6 +116,18 @@ public class GUIScrean extends JFrame implements ActionListener , KeyListener , 
 			for(int i = 0; i < 22; i++)for(int j = 0; j < 12; j++){
 				game[k].add(minos[k][i][j]);
 			}
+		}
+		for(int i = 0; i < 4; i ++)for(int j = 0; j < 4; j++){
+			this.next[i][j] = new JLabel(" ");
+			this.next[i][j].setOpaque(true);
+			this.next[i][j].setBorder(border);
+			this.next[i][j].setBackground(Color.BLACK);
+			nextP.add(next[i][j]);
+			this.hold[i][j] = new JLabel(" ");
+			this.hold[i][j].setOpaque(true);
+			this.hold[i][j].setBorder(border);
+			this.hold[i][j].setBackground(Color.BLACK);
+			holdP.add(hold[i][j]);
 		}
 		
 		/* キーボード入力を受け付ける */
@@ -241,11 +261,21 @@ public class GUIScrean extends JFrame implements ActionListener , KeyListener , 
 			else if(t.getMino(i, j) != 0) this.minos[index][i][j].setBackground(Color.GRAY);
 			else this.minos[index][i][j].setBackground(Color.WHITE);
 		}
-		/* 現在のドロップ予測位置の描写 */
-		/* 現在のドロップ予測位置の描写 */
-		for(int i = 0; i < 4; i++)for(int j = 0; j < 4; j++)if(t.getMoving(j,i) != 0) this.minos[index][i+t.getDropY()][j+t.getX()].setBackground(Color.BLUE);
-		/* 動いているミノの描画 */
-		for(int i = 0; i < 4; i++)for(int j = 0; j < 4; j++)if(t.getMoving(j,i) != 0) this.minos[index][i+t.getY()][j+t.getX()].setBackground(Color.GRAY);
+		for(int i = 0; i < 4; i++)for(int j = 0; j < 4; j++){
+			if(t.getMoving(j,i) != 0){
+				/* 現在のドロップ予測位置の描写 */
+				this.minos[index][i+t.getDropY()][j+t.getX()].setBackground(Color.BLUE);
+				/* 動いているミノの描画 */
+				this.minos[index][i+t.getY()][j+t.getX()].setBackground(Color.GRAY);
+			}
+			/* ホールドミノの描画 */
+			if(t.getHold(j, i) != 0) this.hold[i][j].setBackground(Color.gray);
+			else this.hold[i][j].setBackground(Color.white);
+			/* ネクストミノの描画 */
+			if(t.getNext(j, i) != 0) this.next[i][j].setBackground(Color.gray);
+			else this.next[i][j].setBackground(Color.WHITE);
+	}
+		
 		/* 裏画面と表画面の反転 */
 		cardLayout.next(gameScrean);
 	}
@@ -260,6 +290,7 @@ public class GUIScrean extends JFrame implements ActionListener , KeyListener , 
 		else if(keycode == KeyEvent.VK_UP) t.setSpinRight(true);
 		else if(keycode == KeyEvent.VK_DOWN) t.setDown(true);
 		else if(keycode == KeyEvent.VK_SPACE) t.setDrop(true);
+		else if(keycode == KeyEvent.VK_SHIFT) t.setHoldMove(true);
 		else if(keycode == KeyEvent.VK_ESCAPE) t.setGameOver();
 	}
 	

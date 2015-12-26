@@ -18,7 +18,8 @@ public class AI_second extends AIRunnable{
 	 * 1:左に一度回転
 	 * 2:右に一つ移動
 	 * 3:左に一つ移動
-	 * 4:ドロップを行う*/
+	 * 4:ドロップを行う
+	 * 5:ホールドを行う	*/
 	@Override
 	void commandsMaker() {
 		/* Putted,Movingミノの取得を行う */

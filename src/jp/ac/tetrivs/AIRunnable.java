@@ -17,7 +17,8 @@ public abstract class AIRunnable implements Runnable {
 	 * 1:左に一度回転
 	 * 2:右に一つ移動
 	 * 3:左に一つ移動
-	 * 4:ドロップを行う	 */
+	 * 4:ドロップを行う	 
+	 * 5:ホールドを行う	*/
 	protected Queue<Integer> commands = new LinkedList<Integer>();
 	
 	AIRunnable(Tetris t){
@@ -44,6 +45,7 @@ public abstract class AIRunnable implements Runnable {
 				case 2: t.setRight(true); break;
 				case 3: t.setLeft(true); break;
 				case 4: t.setDrop(true); break;
+				case 5: t.setHoldMove(true); break;
 				default:
 				}
 				waiter(3);

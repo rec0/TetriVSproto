@@ -13,9 +13,22 @@ public class Tetris {
 	/* 処理用のフィールド値を宣言 */
 	private int[][] Putted = makeDefaultPutted();
 	private Queue<Integer> nextMinos = new LinkedList<Integer>();
-	private int[][] moving = Minoes[selectNextMino()];
+	private int[][] moving = makeDefaultMoving();
 	/* ホールドしているミノの保持 */
 	private int[][] hold = makeDefaultMoving();
+	private int[][] next = makeDefaultMoving();
+	{
+		int selectedMino = selectNextMino();
+		for(int i = 0; i < 4; i++)for(int j = 0; j < 4; j++){
+		moving[i][j] = Minoes[selectedMino][i][j];
+		}
+	}
+	{
+		int selectedMino = selectNextMino();
+		for(int i = 0; i < 4; i++)for(int j = 0; j < 4; j++){
+			next[i][j] = Minoes[selectedMino][i][j];
+		}
+	}
 	/* x,y座標および処理用フィールド値 */
 	private int x = 4, y = 0, attack = 0, dropY = 0;
 	/* ネクストミノ生成用キュー */
@@ -24,9 +37,9 @@ public class Tetris {
 	private int dropSpace = 0, downSpace = 0, dropMinoVelocity = 60;
 	boolean droped = false;
 	/* 処理入力用の判定値のフィールド値 */
-	private boolean drop = false, down = false, left = false, right = false, spinLeft = false, spinRight = false, updateScrean = false;
+	private boolean drop = false, down = false, left = false, right = false, spinLeft = false, spinRight = false, holdMove = false, updateScrean = false;
 	private boolean damager = false;
-	private boolean moveFlag = false, gameOverFlag = true;
+	private boolean moveFlag = false, holdenFlag = false, holdFirstFlag = true , gameOverFlag = true;
 	/* 各スレッドの処理のfpsを算出するためのフィールド値 */
 	private double threadTimer = 0, aiTimer = 0, aiTime = 0;
 	private int threadTimerCounter = 0, aiTimerCounter = 0;
@@ -145,6 +158,33 @@ public class Tetris {
 		this.dropedMino();
 	}
 	
+	/* ホールドを行う関数 */
+	public void hold(){
+		if(!this.holdenFlag){
+			if(this.holdFirstFlag){
+				for(int i = 0; i < 4; i++)for(int j = 0; j < 4; j++){
+					this.hold[j][i] = this.moving[j][i];
+					this.moving[j][i] = 0;
+				}
+				this.dropedMino();
+				this.holdFirstFlag = false;
+				this.holdenFlag = true;
+				x = 4;
+				y = 0;
+			}else{
+				int tem;
+				for(int i = 0; i < 4; i++)for(int j = 0; j < 4; j++){
+					tem = this.hold[i][j];
+					this.hold[i][j] = moving[i][j];
+					this.moving[i][j] = tem;
+				}
+				this.holdenFlag = true;
+				x = 4;
+				y = 0;
+			}
+		}
+	}
+	
 	/* ドロップの落下地点の予測をするための関数 */
 	public int guessDropPosition(int x){
 		moveFlag = true;
@@ -212,9 +252,14 @@ public class Tetris {
 		}
 		if(attack-1 > 1) this.setDamage(attack - 1);
 		if(this.getDamager()) damaged(this.getDamage());
-		moving = Minoes[selectNextMino()];
+		int selectedMino = selectNextMino();
+		for(int i = 0; i < 4; i++)for(int j = 0; j < 4; j++){
+			moving[i][j] = next[i][j];
+			next[i][j] = Minoes[selectedMino][i][j];
+		}
 		x = 4;
 		y = 0;
+		this.holdenFlag = false;
 		if(Putted[0][4] != 0 || Putted[0][5] != 0) setGameOver();
 	}
 	
@@ -272,9 +317,22 @@ public class Tetris {
 	
 	/* 動いているミノのデータを渡す */
 	public int getMoving(int x, int y){
-		return this.moving[y][x];
+		if(x >= 0 && x < 4 && y >= 0 && y < 4) return this.moving[y][x];
+		else return -1;
 	}
-		
+	
+	/* ネクストミノのデータを渡す */
+	public int getNext(int x, int y){
+		if(x >= 0 && x < 4 && y >= 0 && y < 4) return this.next[y][x];
+		else return -1;
+	}
+	
+	/* ホールドミノのデータを渡す */
+	public int getHold(int x, int y){
+		if(x >= 0 && x < 4 && y >= 0 && y < 4) return this.hold[y][x];
+		else return -1;
+	}
+	
 	/* ミノの形の保持 */
 	static final int[][][] Minoes = {
 		{	{1,1,0,0},
@@ -332,6 +390,9 @@ public class Tetris {
 	public void setUpdateScrean(boolean b){
 		updateScrean = b;
 	}
+	public void setHoldMove(boolean b){
+		holdMove = b;
+	}
 	public void setGameOver(){
 		gameOverFlag = false;
 	}
@@ -381,6 +442,9 @@ public class Tetris {
 	}
 	public boolean getSpinRight(){
 		return spinRight;
+	}
+	public boolean getHoldMove(){
+		return holdMove;
 	}
 	public boolean getUpdateScrean(){
 		return updateScrean;
