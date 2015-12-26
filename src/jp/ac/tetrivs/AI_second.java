@@ -10,6 +10,8 @@ public class AI_second extends AIRunnable{
 	int[][] putted = Tetris.makeDefaultPutted();
 	int[][] moving = Tetris.makeDefaultMoving();
 	int[][] spinJadge = Tetris.makeDefaultMoving();
+	int[][] next = Tetris.makeDefaultMoving();
+	int[][] hold = Tetris.makeDefaultMoving();
 	
 	/* ここにAIの処理を書いていく
 	 * 処理はcommandsにaddする形式で増やしていく 
@@ -22,9 +24,11 @@ public class AI_second extends AIRunnable{
 	 * 5:ホールドを行う	*/
 	@Override
 	void commandsMaker() {
-		/* Putted,Movingミノの取得を行う */
+		/* Putted,Moving,Next,Holdミノの取得を行う */
 		getPutted();
 		getMoving();
+		getNext();
+		getHold();
 		
 		/* 一番下における位置を検出 */
 		int depth = 0;
@@ -65,6 +69,14 @@ public class AI_second extends AIRunnable{
 		for(int i = 0; i < this.moving[0].length; i++)for(int j = 0; j < this.moving.length; j++) this.moving[j][i] = t.getMoving(i, j);
 	}
 	
+	/* nextミノを取得する関数 */
+	private void getNext(){
+		for(int i = 0; i < this.next[0].length; i++)for(int j = 0; j < this.next.length; j++) this.moving[j][i] = t.getNext(i, j);
+	}
+	/* holdミノを取得する関数 */
+	private void getHold(){
+		for(int i = 0; i < this.hold[0].length; i++)for(int j = 0; j < this.hold.length; j++) this.hold[j][i] = t.getHold(i, j);
+	}
 	/* ドロップの落下地点の予測をするための関数 */
 	public int guessDropDepth(int x, int y, int[][] m, int[][] p){
 		boolean moveFlag = true;
