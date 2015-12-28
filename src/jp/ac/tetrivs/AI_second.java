@@ -71,7 +71,7 @@ public class AI_second extends AIRunnable{
 	
 	/* nextミノを取得する関数 */
 	private void getNext(){
-		for(int i = 0; i < this.next[0].length; i++)for(int j = 0; j < this.next.length; j++) this.moving[j][i] = t.getNext(i, j);
+		for(int i = 0; i < this.next[0].length; i++)for(int j = 0; j < this.next.length; j++) this.next[j][i] = t.getNext(i, j);
 	}
 	/* holdミノを取得する関数 */
 	private void getHold(){
