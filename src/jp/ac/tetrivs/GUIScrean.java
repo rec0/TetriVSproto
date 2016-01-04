@@ -8,6 +8,10 @@ import javax.swing.border.EtchedBorder;
 
 /* テトリスを表示するためのクラスです */
 public class GUIScrean extends JFrame implements ActionListener , KeyListener , MouseListener, MouseMotionListener, MouseWheelListener, GameInterface{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2282374896646087591L;
 	/* テトリスのデータを扱うためのフィールド値 */
 	Tetris t = new Tetris();
 	GUIScrean me = this;
@@ -258,28 +262,31 @@ public class GUIScrean extends JFrame implements ActionListener , KeyListener , 
 		/* 置かれているミノの描画 */
 		for(int i = 0; i < 22; i++)for(int j = 0; j < 12; j++){
 			if(t.getMino(i,j) == 8){}
-			else if(t.getMino(i, j) != 0) this.minos[index][i][j].setBackground(Color.GRAY);
+			else if(t.getMino(i, j) != 0) this.minos[index][i][j].setBackground(colors[t.getMino(i, j)-1]);
 			else this.minos[index][i][j].setBackground(Color.WHITE);
 		}
 		for(int i = 0; i < 4; i++)for(int j = 0; j < 4; j++){
 			if(t.getMoving(j,i) != 0){
 				/* 現在のドロップ予測位置の描写 */
-				this.minos[index][i+t.getDropY()][j+t.getX()].setBackground(Color.BLUE);
+				this.minos[index][i+t.getDropY()][j+t.getX()].setBackground(colorsS[t.getMoving(j,i)-1]);
 				/* 動いているミノの描画 */
-				this.minos[index][i+t.getY()][j+t.getX()].setBackground(Color.GRAY);
+				this.minos[index][i+t.getY()][j+t.getX()].setBackground(colors[t.getMoving(j,i)-1]);
 			}
 			/* ホールドミノの描画 */
-			if(t.getHold(j, i) != 0) this.hold[i][j].setBackground(Color.gray);
+			if(t.getHold(j, i) != 0) this.hold[i][j].setBackground(colors[t.getHold(j,i)-1]);
 			else this.hold[i][j].setBackground(Color.white);
 			/* ネクストミノの描画 */
-			if(t.getNext(j, i) != 0) this.next[i][j].setBackground(Color.gray);
+			if(t.getNext(j, i) != 0) this.next[i][j].setBackground(colors[t.getNext(j, i)-1]);
 			else this.next[i][j].setBackground(Color.WHITE);
 	}
 		
 		/* 裏画面と表画面の反転 */
 		cardLayout.next(gameScrean);
 	}
-	
+	Color[] colors = {new Color(70,120,170), new Color(255,160,0), new Color(0,255,160), new Color(120,0,255),
+			new Color(255,255,100), new Color(255,160,255), new Color(120,255,255)};
+	Color[] colorsS = {new Color(40,90,140), new Color(205,110,0), new Color(0,205,110), new Color(70,0,205),
+			new Color(225,225,70), new Color(225,130,225), new Color(90,225,225)};
 	
 	/* キーボードからの入力で操作する */
 	@Override
