@@ -2,7 +2,7 @@ TetriVSproto
 ==============
 for learning AI with TetriVs
 
-/* TOPICS */
+## TOPICS ##
 
 現在のバージョンの仕様でタイムアタックを行いたいと思っております。
 具体的にはテトリスにおける40LINESをやろうというものです。
