@@ -21,6 +21,26 @@ public abstract class AIRunnable implements Runnable {
 	 * 5:ホールドを行う	*/
 	protected Queue<Integer> commands = new LinkedList<Integer>();
 	
+	/* コマンドの指示をわかりやすいように関数化 */
+	public void rightSpin(){
+		commands.add(0);
+	}
+	public void leftSpin(){
+		commands.add(1);
+	}
+	public void right(){
+		commands.add(2);
+	}
+	public void left(){
+		commands.add(3);
+	}
+	public void drop(){
+		commands.add(4);
+	}
+	public void hold(){
+		commands.add(5);
+	}
+	
 	AIRunnable(Tetris t){
 		this.t = t;
 	}
