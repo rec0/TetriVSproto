@@ -23,6 +23,6 @@ public class AI_first extends AIRunnable {
 		for(int i = 0; i < 3; i++) leftSpin();
 		for(int i = 0; i < 3; i++) right();
 		for(int i = 0; i < 6; i++) left();
-		commands.add(4);
+		drop();
 	} 
 }
