@@ -10,6 +10,12 @@ public abstract class AIRunnable implements Runnable {
 	protected long time;
 	/* コマンド作成時間処理用変数 */
 	protected double countTime;
+	/* テトリスデータを取得するためのフィールド値 */
+	int[][] putted = Tetris.makeDefaultPutted();
+	int[][] moving = Tetris.makeDefaultMoving();
+	int[][] spinJadge = Tetris.makeDefaultMoving();
+	int[][] next = Tetris.makeDefaultMoving();
+	int[][] hold = Tetris.makeDefaultMoving();
 	/* fps計算用変数 */
 	protected double fpsTimer = 0;
 	/* コマンド用キュー
@@ -91,5 +97,23 @@ public abstract class AIRunnable implements Runnable {
 		}
 		
 		time = System.currentTimeMillis();
+	}
+	/* Puttedミノを取得する関数 */
+	protected void getPutted(){
+		for(int i = 0; i < this.putted[0].length; i++) for(int j = 0; j < this.putted.length; j++) this.putted[j][i] = t.getPutted(i, j);
+	}
+	
+	/* movingミノを取得する関数 */
+	protected void getMoving(){
+		for(int i = 0; i < this.moving[0].length; i++)for(int j = 0; j < this.moving.length; j++) this.moving[j][i] = t.getMoving(i, j);
+	}
+	
+	/* nextミノを取得する関数 */
+	protected void getNext(){
+		for(int i = 0; i < this.next[0].length; i++)for(int j = 0; j < this.next.length; j++) this.next[j][i] = t.getNext(i, j);
+	}
+	/* holdミノを取得する関数 */
+	protected void getHold(){
+		for(int i = 0; i < this.hold[0].length; i++)for(int j = 0; j < this.hold.length; j++) this.hold[j][i] = t.getHold(i, j);
 	}
 }

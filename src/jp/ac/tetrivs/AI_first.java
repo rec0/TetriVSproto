@@ -18,11 +18,11 @@ public class AI_first extends AIRunnable {
 	@Override
 	void commandsMaker() {
 		/* ここではホールドを行い,右に3回転,左に3回転,右に3,左に6動かしてからドロップしている */
-		commands.add(5);
-		for(int i = 0; i < 3; i++) hold();
+		hold();
+		for(int i = 0; i < 3; i++) rightSpin();
 		for(int i = 0; i < 3; i++) leftSpin();
 		for(int i = 0; i < 3; i++) right();
 		for(int i = 0; i < 6; i++) left();
 		drop();
-	} 
+	}
 }
