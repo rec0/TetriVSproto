@@ -16,6 +16,8 @@ public abstract class AIRunnable implements Runnable {
 	int[][] spinJadge = Tetris.makeDefaultMoving();
 	int[][] next = Tetris.makeDefaultMoving();
 	int[][] hold = Tetris.makeDefaultMoving();
+	int movingX = 0;
+	int movingY = 0;
 	/* fps計算用変数 */
 	protected double fpsTimer = 0;
 	/* コマンド用キュー
@@ -115,5 +117,13 @@ public abstract class AIRunnable implements Runnable {
 	/* holdミノを取得する関数 */
 	protected void getHold(){
 		for(int i = 0; i < this.hold[0].length; i++)for(int j = 0; j < this.hold.length; j++) this.hold[j][i] = t.getHold(i, j);
+	}
+	/* movingXを取得する関数 */
+	private void getMovingX(){
+		this.movingX = t.getX();
+	}
+	/* movingYを取得する関数 */
+	private void getMovingY(){
+		this.movingY = t.getY();
 	}
 }

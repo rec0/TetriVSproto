@@ -7,7 +7,8 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 
 /* テトリスを表示するためのクラスです */
-public class GUIScrean extends JFrame implements ActionListener , KeyListener , MouseListener, MouseMotionListener, MouseWheelListener, GameInterface{
+public class GUIScrean extends JFrame implements ActionListener , KeyListener , MouseListener,
+MouseMotionListener, MouseWheelListener, GameInterface{
 	/**
 	 * 
 	 */

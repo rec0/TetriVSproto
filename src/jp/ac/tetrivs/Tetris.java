@@ -42,7 +42,7 @@ public class Tetris {
 	private boolean moveFlag = false, holdenFlag = false, holdFirstFlag = true , gameOverFlag = true;
 	/* 各スレッドの処理のfpsを算出するためのフィールド値 */
 	private double threadTimer = 0, aiTimer = 0, aiTime = 0;
-	private int threadTimerCounter = 0, aiTimerCounter = 0;
+	private int threadTimerCounter = 0, aiTimerCounter = 0, gameTimerCounter = 0, gameStartTime = 0;
 	
 	/* 下左右へのあたり判定 */
 	public void moveLeftJadge(){
@@ -424,6 +424,12 @@ public class Tetris {
 	public void setAiTimerCounter(int c){
 		this.aiTimerCounter = c;
 	}
+	public void setGameTimerCounter(int c){
+		this.gameTimerCounter = c;
+	}
+	public void setGameStartTime(int c){
+		this.gameStartTime = c;
+	}
 	/* 処理変数を返す */
 	public boolean getDrop(){
 		return drop;
@@ -475,6 +481,12 @@ public class Tetris {
 	}
 	public int getAiTimerCounter(){
 		return this.aiTimerCounter;
+	}
+	public int getGameTimerCounter(){
+		return this.gameTimerCounter;
+	}
+	public int getGameStartTime(){
+		return this.gameStartTime;
 	}
 	/* 処理に使う関数関係 */
 	/* デフォルトのputtedミノを与える関数 */

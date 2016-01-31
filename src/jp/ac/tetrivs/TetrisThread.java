@@ -20,6 +20,9 @@ public class TetrisThread implements Runnable {
 	/* 処理のメイン文 */
 	@Override
 	public void run() {
+		/* ゲーム開始直後の初期化動作 */
+		t.setGameStartTime((int)System.currentTimeMillis());
+		
 		try {
 			this.suspend();
 		} catch (InterruptedException e1) {
@@ -45,6 +48,9 @@ public class TetrisThread implements Runnable {
 				t.setThreadTimerCounter(0);
 				fpsTimer = System.currentTimeMillis();
 			}
+			
+			/* timerの更新と格納 */
+			t.setGameTimerCounter((int)System.currentTimeMillis() - t.getGameStartTime());
 			
 			/* 画面へ描写の指示 */
 			if(t.getUpdateScrean())	screan.updateScrean();	t.setUpdateScrean(false);
