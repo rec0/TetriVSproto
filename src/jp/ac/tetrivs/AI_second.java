@@ -22,13 +22,15 @@ public class AI_second extends AIRunnable{
 		getMoving();
 		getNext();
 		getHold();
+		getMovingX();
+		getMovingY();
 		
 		/* 一番下における位置を検出 */
 		int depth = 0;
 		int depthIndex = 0;
 		for(int l = 0; l < 4; l++){
 			for(int k = 0; k < 10; k++){
-				int depthIter = guessDropDepth(k, t.getY(), this.moving, this.putted);
+				int depthIter = guessDropDepth(k, this.movingY, this.moving, this.putted);
 				if(depth < depthIter){ depth = depthIter; depthIndex = k + l*10; }
 			}
 			spinJadge[2][0] = moving[0][0];
@@ -47,8 +49,8 @@ public class AI_second extends AIRunnable{
 		
 		/* 検出した一番下の位置へ移動するようにコマンドを入力 */
 		for(int i = 0; i < depthIndex/10; i++) commands.add(0);
-		if((depthIndex%10 -t.getX() ) <= 0 ) for(int i = 0; i < ( t.getX() - depthIndex%10); i++) commands.add(3);
-		else for(int i = 0; i < (depthIndex%10 - t.getX()); i++) commands.add(2);
+		if((depthIndex%10 -this.movingX ) <= 0 ) for(int i = 0; i < ( this.movingX - depthIndex%10); i++) commands.add(3);
+		else for(int i = 0; i < (depthIndex%10 - this.movingX); i++) commands.add(2);
 		commands.add(4);
 	} 
 	/* ドロップの落下地点の予測をするための関数 */

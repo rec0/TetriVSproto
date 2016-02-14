@@ -5,7 +5,7 @@ import java.util.Queue;
 
 public abstract class AIRunnable implements Runnable {
 	/* テトリスデータの取得 */
-	protected Tetris t;
+	private Tetris t;
 	/* 待機用変数 */
 	protected long time;
 	/* コマンド作成時間処理用変数 */
@@ -119,11 +119,11 @@ public abstract class AIRunnable implements Runnable {
 		for(int i = 0; i < this.hold[0].length; i++)for(int j = 0; j < this.hold.length; j++) this.hold[j][i] = t.getHold(i, j);
 	}
 	/* movingXを取得する関数 */
-	private void getMovingX(){
+	protected void getMovingX(){
 		this.movingX = t.getX();
 	}
 	/* movingYを取得する関数 */
-	private void getMovingY(){
+	protected void getMovingY(){
 		this.movingY = t.getY();
 	}
 }
