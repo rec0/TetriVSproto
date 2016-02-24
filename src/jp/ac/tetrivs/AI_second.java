@@ -25,6 +25,8 @@ public class AI_second extends AIRunnable{
 		getMovingX();
 		getMovingY();
 		
+		int[][] spinJadge = Tetris.makeDefaultMoving();
+		
 		/* 一番下における位置を検出 */
 		int depth = 0;
 		int depthIndex = 0;

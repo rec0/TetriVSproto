@@ -11,13 +11,12 @@ public abstract class AIRunnable implements Runnable {
 	/* コマンド作成時間処理用変数 */
 	protected double countTime;
 	/* テトリスデータを取得するためのフィールド値 */
-	int[][] putted = Tetris.makeDefaultPutted();
-	int[][] moving = Tetris.makeDefaultMoving();
-	int[][] spinJadge = Tetris.makeDefaultMoving();
-	int[][] next = Tetris.makeDefaultMoving();
-	int[][] hold = Tetris.makeDefaultMoving();
-	int movingX = 0;
-	int movingY = 0;
+	protected int[][] putted = Tetris.makeDefaultPutted();
+	protected int[][] moving = Tetris.makeDefaultMoving();
+	protected int[][] next = Tetris.makeDefaultMoving();
+	protected int[][] hold = Tetris.makeDefaultMoving();
+	protected int movingX = 0;
+	protected int movingY = 0;
 	/* fps計算用変数 */
 	protected double fpsTimer = 0;
 	/* コマンド用キュー
